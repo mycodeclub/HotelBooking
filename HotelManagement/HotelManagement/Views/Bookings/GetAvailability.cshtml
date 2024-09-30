@@ -1,0 +1,29 @@
+﻿@model List<HotelManagement.ViewModels.RoomsAvilibilityVM>
+@{
+    var fistRecord = Model.FirstOrDefault();
+    ViewData["Title"] = "GetAvailability";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>GetAvailability</h1>
+
+<table class="table table-hover"> 
+
+    @foreach (var date in Model)
+    {
+        <thead>
+            <tr>
+                <td>@date.BookingDate</td> 
+                @foreach (var hall in date.AvailableHalls)
+                {
+                    <td>@hall.HallNumber</td>
+                } 
+                @foreach (var room in date.AvailableRooms)
+                {
+                    <td>R-@room.RoomNumber</td>
+                }
+            </tr>
+        </thead>
+
+     }
+</table> 
