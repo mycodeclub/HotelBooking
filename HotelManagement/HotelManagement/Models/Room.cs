@@ -7,11 +7,9 @@ namespace HotelManagement.Models
     {
         [Key]
         public string RoomNumber { get; set; } = string.Empty;
-        public int Rent { get; set; }
-
-        [NotMapped]
-        public bool?
-            IsAvailable { get { return Guests != null; } }
+        public int Rent { get; set; } 
         public List<Guest>? Guests { get; set; }
+        [NotMapped]
+        public bool? IsAvailable { get; set; }
     }
 }

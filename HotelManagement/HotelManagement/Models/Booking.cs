@@ -18,7 +18,7 @@ namespace HotelManagement.Models
         public List<string>? RoomIds { get; set; }
         public List<Room>? Rooms { get; set; }
 
-        public List<int>? HallIds { get; set; }
+        public List<string>? HallIds { get; set; }
         public List<Hall>? Halls { get; set; }
 
 

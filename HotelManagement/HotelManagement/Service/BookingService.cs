@@ -1,7 +1,11 @@
 ﻿
 using HotelBookingApp.EF;
+using HotelManagement.Models;
 using HotelManagement.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Buffers.Text;
+using System.Collections.Generic;
 
 namespace HotelManagement.Service
 {
@@ -16,13 +20,26 @@ namespace HotelManagement.Service
             DateTime forDate = checkIn;
 
             var halls = await _context.Halls.ToListAsync();
-            var rooms = await _context.Rooms.ToListAsync(); 
-            var booking = await _context.Bookings.Where(b => b.CheckIn >= checkIn && b.CheckOut <= checkOut).ToListAsync();
+            var rooms = await _context.Rooms.ToListAsync();
+            var bookings = await _context.Bookings.Where(b => b.CheckIn >= checkIn && b.CheckOut <= checkOut).ToListAsync();
 
-            foreach (var b in booking)
+            var commonHalls = new List<Hall>();
+            var commonRooms = new List<Room>();
+
+            foreach (var booking in bookings)
             {
-                halls.Where( h => b.HallIds.Contains(h.HallNumber)).
+                var bookingHalls = halls.Where(h => booking.HallIds.Contains(h.HallNumber)).ToList();
+                var bookingRooms = rooms.Where(r => booking.RoomIds.Contains(r.RoomNumber)).ToList();
+                commonHalls.AddRange(bookingHalls);
+                commonRooms.AddRange(bookingRooms);
+
             }
+            availableRooms.Add(new RoomsAvilibilityVM() { BookingDate = booking.CheckIn,  });
+
+
+            // Optionally, to find only unique common halls and rooms:
+            commonHalls = commonHalls.Distinct().ToList();
+            commonRooms = commonRooms.Distinct().ToList();
 
 
 
@@ -34,7 +51,7 @@ namespace HotelManagement.Service
                     AvailableHalls = halls,
                     AvailableRooms = rooms
                 });
-                 
+
                 forDate = forDate.AddDays(1);
             }
 
