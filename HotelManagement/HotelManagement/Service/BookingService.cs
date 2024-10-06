@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HotelManagement.Service
 {
@@ -16,50 +17,28 @@ namespace HotelManagement.Service
         public async Task<List<RoomsAvilibilityVM>> GetAvailability(DateTime checkIn, DateTime checkOut)
         {
 
-            var availableRooms = new List<RoomsAvilibilityVM>() { };
-            DateTime forDate = checkIn;
-
-            var halls = await _context.Halls.ToListAsync();
+            var roomsAvilibility = new List<RoomsAvilibilityVM>() { };
             var rooms = await _context.Rooms.ToListAsync();
             var bookings = await _context.Bookings.Where(b => b.CheckIn >= checkIn && b.CheckOut <= checkOut).ToListAsync();
+            DateTime forDate = checkIn;
 
-            var commonHalls = new List<Hall>();
-            var commonRooms = new List<Room>();
-
-            foreach (var booking in bookings)
+            while (forDate >= checkOut)
             {
-                var bookingHalls = halls.Where(h => booking.HallIds.Contains(h.HallNumber)).ToList();
-                var bookingRooms = rooms.Where(r => booking.RoomIds.Contains(r.RoomNumber)).ToList();
-                commonHalls.AddRange(bookingHalls);
-                commonRooms.AddRange(bookingRooms);
+                var forThisDaybooking = bookings.Where(b => b.CheckIn == forDate).ToList();
+                //roomsAvilibility.Add(new RoomsAvilibilityVM()
+                //{
+                //    BookingDate = forDate,
+                //    Rooms = rooms.ForEach(r =>
+                //    {
+                //        var data = forThisDaybooking.Where(bookedRoom => bookedRoom.RoomIds.Contains(r.RoomNumber)).ToList();
+                //    })
 
-            }
-            availableRooms.Add(new RoomsAvilibilityVM() { BookingDate = booking.CheckIn,  });
-
-
-            // Optionally, to find only unique common halls and rooms:
-            commonHalls = commonHalls.Distinct().ToList();
-            commonRooms = commonRooms.Distinct().ToList();
-
-
-
-            while (forDate <= checkOut)
-            {
-                availableRooms.Add(new RoomsAvilibilityVM()
-                {
-                    BookingDate = forDate,
-                    AvailableHalls = halls,
-                    AvailableRooms = rooms
-                });
+                //});
 
                 forDate = forDate.AddDays(1);
             }
-
-
-            return availableRooms;
-
+            return roomsAvilibility;
         }
-
-
+   
     }
 }

@@ -4,11 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingApp.EF
 {
-    //    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -23,20 +21,23 @@ namespace HotelBookingApp.EF
               new Room() { RoomNumber = "107", Rent = 1800 },
               new Room() { RoomNumber = "108", Rent = 1800 },
               new Room() { RoomNumber = "109", Rent = 1800 },
-              new Room() { RoomNumber = "110", Rent = 1800 }
+              new Room() { RoomNumber = "110", Rent = 1800 },
+              new Room() { RoomNumber = "H1", Rent = 22000 },
+              new Room() { RoomNumber = "H2", Rent = 22000 }
+
                );
 
-            modelBuilder.Entity<Hall>().HasData(
-                new Hall() { HallNumber = "H1", Rent = 25000 },
-                new Hall() { HallNumber = "H2", Rent = 25000 }
+            //modelBuilder.Entity<Hall>().HasData(
+            //    new Hall() { HallNumber = "H1", Rent = 25000 },
+            //    new Hall() { HallNumber = "H2", Rent = 25000 }
 
-                );
+            //    );
+
             modelBuilder.Entity<GorvnIdType>().HasData(
                new GorvnIdType() { IdType = "Pan", Id = 1 },
                new GorvnIdType() { IdType = "Aadhar", Id = 2 },
                new GorvnIdType() { IdType = "Voter", Id = 3 },
                new GorvnIdType() { IdType = "Other", Id = 4 }
-
                );
 
         }
