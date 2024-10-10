@@ -54,8 +54,7 @@ namespace HotelBookingApp.EF
 
 
 
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Hall> Halls { get; set; }
+        public DbSet<Room> Rooms { get; set; } 
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<GorvnIdType> GorvnIdTypes { get; set; }

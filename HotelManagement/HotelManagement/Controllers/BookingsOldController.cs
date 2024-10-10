@@ -12,12 +12,12 @@ using HotelManagement.Service;
 
 namespace HotelManagement.Controllers
 {
-    public class BookingsController : Controller
+    public class BookingsOldController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IBookingService _booking;
 
-        public BookingsController(AppDbContext context, IBookingService booking)
+        public BookingsOldController(AppDbContext context, IBookingService booking)
         {
             _context = context;
             _booking = booking;
@@ -38,7 +38,7 @@ namespace HotelManagement.Controllers
             }
 
             var booking = await _context.Bookings
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.UniqueId == id);
             if (booking == null)
             {
                 return NotFound();
@@ -104,7 +104,7 @@ namespace HotelManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,BookingDate,CheckIn,CheckOut,GuestIds,RoomIds,HallIds,AdvanceAmt,RemainingAmt,CreatedDate,LastUpdatedDate")] Booking booking)
         {
-            if (id != booking.Id)
+            if (id != booking.UniqueId)
             {
                 return NotFound();
             }
@@ -118,7 +118,7 @@ namespace HotelManagement.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookingExists(booking.Id))
+                    if (!BookingExists(booking.UniqueId))
                     {
                         return NotFound();
                     }
@@ -141,7 +141,7 @@ namespace HotelManagement.Controllers
             }
 
             var booking = await _context.Bookings
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.UniqueId == id);
             if (booking == null)
             {
                 return NotFound();
@@ -167,7 +167,7 @@ namespace HotelManagement.Controllers
 
         private bool BookingExists(int id)
         {
-            return _context.Bookings.Any(e => e.Id == id);
+            return _context.Bookings.Any(e => e.UniqueId == id);
         }
     }
 }

@@ -28,19 +28,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CheckOut)
         </dd>
-    @*     <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GuestIds)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GuestIds)
-        </dd> *@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomIds)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomIds)
-        </dd>
-      
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AdvanceAmt)
         </dt>
@@ -68,6 +56,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.UniqueId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

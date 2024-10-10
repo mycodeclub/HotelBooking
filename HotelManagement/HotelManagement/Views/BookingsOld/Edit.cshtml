@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UniqueId" />
             <div class="form-group">
                 <label asp-for="BookingDate" class="control-label"></label>
                 <input asp-for="BookingDate" class="form-control" />
@@ -28,16 +28,7 @@
                 <input asp-for="CheckOut" class="form-control" />
                 <span asp-validation-for="CheckOut" class="text-danger"></span>
             </div>
-           @*  <div class="form-group">
-                <label asp-for="GuestIds" class="control-label"></label>
-                <input asp-for="GuestIds" class="form-control" />
-                <span asp-validation-for="GuestIds" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="RoomIds" class="control-label"></label>
-                <input asp-for="RoomIds" class="form-control" />
-                <span asp-validation-for="RoomIds" class="text-danger"></span>
-            </div>
+
           
             <div class="form-group">
                 <label asp-for="AdvanceAmt" class="control-label"></label>
