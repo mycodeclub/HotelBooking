@@ -10,7 +10,8 @@ namespace HotelManagement.Models
         public DateTime BookingDate { get; set; }
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
-        public string? RoomId { get; set; } = string.Empty;
+        [Required]
+        public string RoomId { get; set; } = string.Empty;
         [ForeignKey("RoomId")]
         public Room? Room { get; set; }
 
@@ -24,8 +25,7 @@ namespace HotelManagement.Models
 
         [NotMapped]
         public int NumberOfGuests { get { return Guests == null ? 0 : Guests.Count; } }
-        [NotMapped]
-        public List<Room>? Rooms { get; set; }
+
 
     }
 }

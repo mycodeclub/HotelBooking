@@ -1,0 +1,224 @@
+﻿@model HotelManagement.Models.Booking
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Booking</h4>
+<hr />
+<form method="post" asp-action="GetAvailability">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+
+
+        <div class="col-md-4 form-group">
+            <label asp-for="CheckIn" class="control-label"></label>
+            <input asp-for="CheckIn" class="form-control" />
+            <span asp-validation-for="CheckIn" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 form-group ">
+            <label asp-for="CheckOut" class="control-label"></label>
+            <input asp-for="CheckOut" class="form-control" />
+            <span asp-validation-for="CheckOut" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-4 ">
+            <label asp-for="RoomId" class="control-label"></label>
+            <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId">
+                <option value="">-- Select Room Type --</option>
+            </select>
+            <span asp-validation-for="RoomId" class="text-danger"></span>
+        </div>
+    </div>
+    @if (Model.Guests.Count > 0)
+    {
+        <hr />
+        <div class="row">
+            @for (int i = 0; i < Model.Guests.Count; i++)
+            {
+
+                <div class="col-md-4 form-group ">
+                    <label asp-for="Guests[i].FirstName" class="control-label"></label>
+                    <input asp-for="Guests[i].FirstName " class="form-control" />
+                    <span asp-validation-for="Guests[i].FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 form-group ">
+                    <label asp-for="Guests[i].LastName" class="control-label"></label>
+                    <input asp-for="Guests[i].LastName " class="form-control" />
+                    <span asp-validation-for="Guests[i].LastName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 form-group ">
+                    <label asp-for="Guests[i].Phone" class="control-label"></label>
+                    <input asp-for="Guests[i].Phone " class="form-control" />
+                    <span asp-validation-for="Guests[i].Phone" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group ">
+                    <label asp-for="Guests[i].Address" class="control-label"></label>
+                    <input asp-for="Guests[i].Address " class="form-control" />
+                    <span asp-validation-for="Guests[i].Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6 ">
+                    <label asp-for="Guests[i].GorvnIdType" class="control-label"></label>
+                    <select asp-for="Guests[i].GorvnIdType" class="form-control" asp-items="ViewBag.GorvnIdType">
+                        <option value="">-- Select Room Type --</option>
+                    </select>
+                    <span asp-validation-for="Guests[i].GorvnIdType" class="text-danger"></span>
+                </div>
+
+
+
+            }
+        </div>
+    }
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- User Card 1 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="User Profile Picture">
+                    <div class="card-body">
+                        <h5 class="card-title">John Doe</h5>
+                        <p class="card-text">Email: john.doe@example.com</p>
+                        <p class="card-text">Location: New York</p>
+                        <button class="btn btn-primary"><i class="bi bi-hand-thumbs-up"></i> Like</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Card 2 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="User Profile Picture">
+                    <div class="card-body">
+                        <h5 class="card-title">Jane Smith</h5>
+                        <p class="card-text">Email: jane.smith@example.com</p>
+                        <p class="card-text">Location: San Francisco</p>
+                        <button class="btn btn-primary"><i class="bi bi-hand-thumbs-up"></i> Like</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Card 3 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="User Profile Picture">
+                    <div class="card-body">
+                        <h5 class="card-title">Michael Brown</h5>
+                        <p class="card-text">Email: michael.brown@example.com</p>
+                        <p class="card-text">Location: Los Angeles</p>
+                        <button class="btn btn-primary"><i class="bi bi-hand-thumbs-up"></i> Like</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<hr />
+<hr />
+<hr />
+
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Guest Card 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Guest Profile Picture" id="photoPreview1">
+                <div class="card-body">
+                    <h5 class="card-title">Guest 1</h5>
+                    <form>
+                        <div class="mb-3">
+                            <label for="firstName1" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName1" placeholder="Enter first name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName1" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName1" placeholder="Enter last name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mobile1" class="form-label">Mobile</label>
+                            <input type="tel" class="form-control" id="mobile1" placeholder="Enter mobile number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address1" class="form-label">Address</label>
+                            <textarea class="form-control" id="address1" rows="2" placeholder="Enter address"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="idProof1" class="form-label">ID Proof</label>
+                            <input type="file" class="form-control" id="idProof1">
+                        </div>
+                        <!-- Photo capture section -->
+                        <div class="mb-3">
+                            <label class="form-label">Capture Photo</label>
+                            <div class="mb-3">
+                                <video id="video1" autoplay></video>
+                                <button type="button" class="btn btn-primary mt-2" onclick="capturePhoto(1)">Capture</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guest Card 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Guest Profile Picture" id="photoPreview2">
+                <div class="card-body">
+                    <h5 class="card-title">Guest 2</h5>
+                    <form>
+                        <div class="mb-3">
+                            <label for="firstName2" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName2" placeholder="Enter first name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName2" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName2" placeholder="Enter last name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mobile2" class="form-label">Mobile</label>
+                            <input type="tel" class="form-control" id="mobile2" placeholder="Enter mobile number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address2" class="form-label">Address</label>
+                            <textarea class="form-control" id="address2" rows="2" placeholder="Enter address"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="idProof2" class="form-label">ID Proof</label>
+                            <input type="file" class="form-control" id="idProof2">
+                        </div>
+                        <!-- Photo capture section -->
+                        <div class="mb-3">
+                            <label class="form-label">Capture Photo</label>
+                            <div class="mb-3">
+                                <video id="video2" autoplay></video>
+                                <button type="button" class="btn btn-primary mt-2" onclick="capturePhoto(2)">Capture</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- More guest cards can be added similarly -->
+    </div>
+</div>
+
+    <div class="col-md-4 form-group ">
+        <label class="control-label"></label>
+        <br />
+        <input class="btn btn-primary" type="submit" value="Save" />
+    </div>
+ </form>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

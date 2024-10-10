@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HotelManagement.Controllers
 {
@@ -21,9 +22,10 @@ namespace HotelManagement.Controllers
 
 
         // GET: BookingController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var bookings = await _context.Bookings.Include(b => b.Room).Include(b => b.Guests).ToListAsync();
+            return View(bookings);
         }
 
         // GET: BookingController/Details/5
@@ -35,14 +37,15 @@ namespace HotelManagement.Controllers
         // GET: BookingController/Create
         public async Task<IActionResult> Create(int id)
         {
-            var booking = await _context.Bookings.FindAsync(id);
+            var booking = await _context.Bookings.Include(b => b.Guests).Include(b => b.Room).Where(b => b.UniqueId == id).FirstOrDefaultAsync();
             booking ??= new Models.Booking()
             {
                 CheckIn = DateTime.Now,
                 CheckOut = DateTime.Now.AddDays(2),
-                Rooms = await _context.Rooms.ToListAsync(),
+                Guests = [new Models.Guest() { }]
             };
-            // ViewData["RoomTypeId"] = new SelectList(  _context.Rooms , "RoomNumber", "RoomNumber");
+
+            ViewData["GorvnIdType"] = new SelectList(_context.GorvnIdTypes, "Id", "IdType");
             ViewData["RoomId"] = new SelectList(_context.Rooms.Select(r => new { r.RoomNumber, DisplayText = r.RoomNumber + " - Rent: $" + r.Rent.ToString("F2") }), "RoomNumber", /*  Value field */ "DisplayText" /*Display field*/ );
             return View(booking);
         }
@@ -50,16 +53,24 @@ namespace HotelManagement.Controllers
         // POST: BookingController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Models.Booking booking)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _context.Bookings.AddAsync(booking);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["GorvnIdType"] = new SelectList(_context.GorvnIdTypes, "Id", "IdType");
+            ViewData["RoomId"] = new SelectList(_context.Rooms.Select(r => new { r.RoomNumber, DisplayText = r.RoomNumber + " - Rent: $" + r.Rent.ToString("F2") }), "RoomNumber", /*  Value field */ "DisplayText" /*Display field*/ );
+            return View(booking);
         }
 
         // GET: BookingController/Edit/5

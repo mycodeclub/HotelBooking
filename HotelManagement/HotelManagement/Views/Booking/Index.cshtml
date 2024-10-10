@@ -1,5 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List< HotelManagement.Models.Booking>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th> Room Numbers </th>
+            <th> Number Of Guests </th>
+            <th> Check-In Date   </th>
+            <th> Check-Out Date   </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.Room.RoomNumber</td>
+                <td>@booking.NumberOfGuests</td>
+                <td>@booking.CheckIn</td>
+                <td>@booking.CheckOut</td>
+                <td><a href="/Booking/Create/@booking.UniqueId" > Edit </a></td>
+            </tr>
+        }
+    </tbody>
+</table>
