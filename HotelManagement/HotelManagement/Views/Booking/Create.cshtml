@@ -13,7 +13,7 @@
 </style>
 <h4>Booking</h4>
 <hr />
-<form method="post" >
+<form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4 form-group">
@@ -37,19 +37,10 @@
     </div>
 
 
-
-
-
-
-
     @if (Model.Guests.Count > 0)
     {
-
         <div class="container mt-5">
             <div class="row">
-
-
-
                 @for (int i = 0; i < Model.Guests.Count; i++)
                 {
                     <div class="col-md-4">
@@ -78,13 +69,15 @@
                                     <select asp-for="Guests[i].GorvnIdType" class="form-control" asp-items="ViewBag.GorvnIdType">
                                         <option value="">-- Select Room Type --</option>
                                     </select>
-                                    <br />                              
+                                    <br />
                                     <input asp-for="Guests[i].GovnIdNumber" placeholder="Gov Id Number" class="form-control" />
                                     <span asp-validation-for="Guests[i].GovnIdNumber" class="text-danger"></span>
                                     <span asp-validation-for="Guests[i].GorvnIdType" class="text-danger"></span>
                                     <br />
-                                    <input type="file" class="form-control" id="idProof1">
+                                    @* <input type="file" class="form-control" id="idProof1"> *@
+                                    <input type="file" asp-for="Guests[i].GovIdFile" onchange="previewImage(event)"  class="form-control" />
 
+                                    <img id="GuestDocpreview" src="@Model.Guests[i].GovIdFilePath" alt="Uploaded Image" width="300" />
                                 </div>
                                 <!-- Photo capture section -->
                                 <div class="mb-3">
@@ -116,7 +109,20 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script type="text/javascript">
+            function previewImage(event) {
+                var input = event.target;
+                var reader = new FileReader();
 
+                reader.onload = function () {
+                    var imagePreview = document.getElementById('GuestDocpreview');
+                    imagePreview.src = reader.result;
+                    imagePreview.style.display = 'block'; // Show the image box
+                };
+
+                reader.readAsDataURL(input.files[0]); // Read the file as a data URL
+            }
+        </script>
         <!-- Camera and Photo Capture Script -->
         <script>
             // Initialize video streams

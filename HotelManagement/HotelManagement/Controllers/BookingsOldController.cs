@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HotelBookingApp.EF;
 using HotelManagement.Models;
@@ -12,16 +7,10 @@ using HotelManagement.Service;
 
 namespace HotelManagement.Controllers
 {
-    public class BookingsOldController : Controller
+    public class BookingsOldController(AppDbContext context, IBookingService booking) : Controller
     {
-        private readonly AppDbContext _context;
-        private readonly IBookingService _booking;
-
-        public BookingsOldController(AppDbContext context, IBookingService booking)
-        {
-            _context = context;
-            _booking = booking;
-        }
+        private readonly AppDbContext _context = context;
+        private readonly IBookingService _booking = booking;
 
         // GET: Bookings
         public async Task<IActionResult> Index()
