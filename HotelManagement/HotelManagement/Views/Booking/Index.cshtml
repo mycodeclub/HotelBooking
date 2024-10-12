@@ -1,5 +1,6 @@
 ﻿@model List< HotelManagement.Models.Booking>
 
+<a class="float-right" href="/Booking/Create">Add New Booking </a>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -7,6 +8,7 @@
             <th> Number Of Guests </th>
             <th> Check-In Date   </th>
             <th> Check-Out Date   </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -18,7 +20,9 @@
                 <td>@booking.NumberOfGuests</td>
                 <td>@booking.CheckIn</td>
                 <td>@booking.CheckOut</td>
-                <td><a href="/Booking/Create/@booking.UniqueId" > Edit </a></td>
+                <td> <img id="GuestDocpreview" src="@booking.Guests.FirstOrDefault().GovIdFilePath" alt="Uploaded Image" width="100" /></td>
+
+                <td><a href="/Booking/Create/@booking.UniqueId"> Edit </a></td>
             </tr>
         }
     </tbody>

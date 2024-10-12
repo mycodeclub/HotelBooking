@@ -14,94 +14,83 @@
 <h4>Booking</h4>
 <hr />
 <form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="UniqueId" />
+    <input type="hidden" asp-for="CreatedDate" />
+    <input type="hidden" asp-for="LastUpdatedDate" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
-        <div class="col-md-4 form-group">
+
+        <div class="mb-3 col-sm-12 col-md-6  col-xl-3 form-group">
+            <label asp-for="Guests[0].FirstName" class="control-label"></label>
+            <input asp-for="Guests[0].FirstName" placeholder="First Name" class="form-control" />
+            <span asp-validation-for="Guests[0].FirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-sm-12 col-md-6 col-xl-3  form-group">
+            <label asp-for="Guests[0].LastName" class="control-label"></label>
+            <input asp-for="Guests[0].LastName" placeholder="Last Name" class="form-control" />
+            <span asp-validation-for="Guests[0].LastName" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-sm-12 col-md-6 col-xl-3  form-group">
+            <label asp-for="Guests[0].Phone" class="control-label"></label>
+            <input asp-for="Guests[0].Phone" placeholder="Mobile Phone No." class="form-control" />
+            <span asp-validation-for="Guests[0].Phone" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-sm-12 col-md-6 col-xl-3 form-group">
+            <label asp-for="Guests[0].Email" class="control-label"></label>
+            <input asp-for="Guests[0].Email" placeholder="Email id" class="form-control" />
+            <span asp-validation-for="Guests[0].Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-sm-12 form-group">
+            <label asp-for="Guests[0].Address" class="control-label"></label>
+            <input asp-for="Guests[0].Address" placeholder="Address" class="form-control" />
+            <span asp-validation-for="Guests[0].Address" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 col-sm-12 col-md-6 col-lg-4 form-group">
             <label asp-for="CheckIn" class="control-label"></label>
             <input asp-for="CheckIn" class="form-control" />
             <span asp-validation-for="CheckIn" class="text-danger"></span>
-        </div>
-        <div class="col-md-4 form-group ">
+
             <label asp-for="CheckOut" class="control-label"></label>
             <input asp-for="CheckOut" class="form-control" />
             <span asp-validation-for="CheckOut" class="text-danger"></span>
-        </div>
 
-        <div class="form-group col-md-4 ">
             <label asp-for="RoomId" class="control-label"></label>
             <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId">
                 <option value="">-- Select Room Type --</option>
             </select>
             <span asp-validation-for="RoomId" class="text-danger"></span>
         </div>
-    </div>
+        <div class="mb-3 col-sm-12 col-md-6 col-lg-4 form-group">
+            <label asp-for="Guests[0].GovnId" class="control-label"></label>
+            <select asp-for="Guests[0].GovnId" class="form-control" asp-items="ViewBag.GorvnIdType">
+                <option value="">-- Select Id Type --</option>
+            </select>
+             <span asp-validation-for="Guests[0].GorvnIdType" class="text-danger"></span>
+        
+             <label asp-for="Guests[0].GovnIdNumber" class="control-label"></label>
+            <input asp-for="Guests[0].GovnIdNumber" placeholder="Gov Id Number" class="form-control" />
+            <span asp-validation-for="Guests[0].GovnIdNumber" class="text-danger"></span>
 
-
-    @if (Model.Guests.Count > 0)
-    {
-        <div class="container mt-5">
-            <div class="row">
-                @for (int i = 0; i < Model.Guests.Count; i++)
-                {
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Guest 1</h5>
-                                <div class="mb-3">
-                                    <input asp-for="Guests[i].FirstName" placeholder="First Name" class="form-control" />
-                                    <span asp-validation-for="Guests[i].FirstName" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <input asp-for="Guests[i].LastName" placeholder="Last Name" class="form-control" />
-                                    <span asp-validation-for="Guests[i].LastName" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <input asp-for="Guests[i].Phone" placeholder="Phone Number" class="form-control" />
-                                    <span asp-validation-for="Guests[i].Phone" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <input asp-for="Guests[i].Address" placeholder="Address " class="form-control" />
-                                    <span asp-validation-for="Guests[i].Address" class="text-danger"></span>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label asp-for="Guests[i].GorvnIdType" class="control-label"></label>
-                                    <select asp-for="Guests[i].GorvnIdType" class="form-control" asp-items="ViewBag.GorvnIdType">
-                                        <option value="">-- Select Room Type --</option>
-                                    </select>
-                                    <br />
-                                    <input asp-for="Guests[i].GovnIdNumber" placeholder="Gov Id Number" class="form-control" />
-                                    <span asp-validation-for="Guests[i].GovnIdNumber" class="text-danger"></span>
-                                    <span asp-validation-for="Guests[i].GorvnIdType" class="text-danger"></span>
-                                    <br />
-                                    @* <input type="file" class="form-control" id="idProof1"> *@
-                                    <input type="file" asp-for="Guests[i].GovIdFile" onchange="previewImage(event)"  class="form-control" />
-
-                                    <img id="GuestDocpreview" src="@Model.Guests[i].GovIdFilePath" alt="Uploaded Image" width="300" />
-                                </div>
-                                <!-- Photo capture section -->
-                                <div class="mb-3">
-                                    <label class="form-label">Capture Photo</label>
-                                    <div class="mb-3">
-                                        <video id="video1" autoplay></video>
-                                        <button type="button" class="btn btn-primary mt-2" onclick="capturePhoto(1)">Capture</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+            <label asp-for="Guests[0].GovIdFile" class="control-label"> Upload Id </label>
+            <input type="file" asp-for="Guests[0].GovIdFile" onchange="previewImage(event)" class="mb-3  form-control" />
         </div>
-    }
 
-
-
-    <div class="col-md-4 form-group ">
-        <label class="control-label"></label>
-        <br />
-        <input class="btn btn-primary" type="submit" value="Save" />
-    </div>
+        <div class="mb-3 col-sm-12 col-md-6 col-lg-4 form-group">
+            <img id="GuestDocpreview" class="img-fluid custom-img" src="@Model.Guests[0].GovIdFilePath" alt="Uploaded Image" />
+        </div>
+@*         <!-- Photo capture section -->
+        <div class="mb-3">
+            <label class="form-label">Capture Photo</label>
+            <div class="mb-3">
+                <video id="video1" autoplay></video>
+                <button type="button" class="btn btn-primary mt-2" onclick="capturePhoto(1)">Capture</button>
+            </div>
+        </div> *@
+        <div class=" col-sm-12 text-center">
+             <input class="btn btn-primary  " type="submit" value="Save" />
+        </div>
+    </div> 
 </form>
 
 

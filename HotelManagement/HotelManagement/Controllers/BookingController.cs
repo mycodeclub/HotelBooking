@@ -64,7 +64,18 @@ namespace HotelManagement.Controllers
             {
                 try
                 {
-                    await _context.Bookings.AddAsync(booking);
+                    if (booking.UniqueId.Equals(0))
+                    {
+                        booking.CreatedDate = DateTime.Now;
+                        booking.Guests?.ForEach(g => { g.CreatedDate = DateTime.Now; });
+                        await _context.Bookings.AddAsync(booking);
+                    }
+                    else
+                    {
+                        booking.LastUpdatedDate = DateTime.Now;
+                        booking.Guests?.ForEach(g => { g.LastUpdatedDate = DateTime.Now; });
+                        _context.Bookings.Update(booking);
+                    }
                     await _context.SaveChangesAsync();
                     await SaveGuestDocs(booking.Guests);
                     return RedirectToAction(nameof(Index));
@@ -74,6 +85,7 @@ namespace HotelManagement.Controllers
                     return View();
                 }
             }
+            // GovnId
             ViewData["GorvnIdType"] = new SelectList(_context.GorvnIdTypes, "Id", "IdType");
             ViewData["RoomId"] = new SelectList(_context.Rooms.Select(r => new { r.RoomNumber, DisplayText = r.RoomNumber + " - Rent: $" + r.Rent.ToString("F2") }), "RoomNumber", /*  Value field */ "DisplayText" /*Display field*/ );
             return View(booking);

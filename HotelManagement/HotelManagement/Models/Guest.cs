@@ -10,8 +10,7 @@ namespace HotelManagement.Models
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-
+        public string Email { get; set; } = string.Empty; 
         public int? GovnId { get; set; }
         [ForeignKey("GovnId")]
         public GorvnIdType? GorvnIdType { get; set; }
@@ -19,7 +18,7 @@ namespace HotelManagement.Models
 
         [NotMapped]
         public IFormFile? GovIdFile { get; set; }
-        public string GovIdFilePath { get; set; } = string.Empty;
+        public string GovIdFilePath { get; set; } = "/defaultId.png";
 
 
         [NotMapped]
@@ -28,7 +27,8 @@ namespace HotelManagement.Models
         public string Phone { get; set; } = string.Empty;
 
 
-
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
 
     }
 }
