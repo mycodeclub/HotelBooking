@@ -29,7 +29,10 @@ namespace HotelManagement.Controllers
         // GET: BookingController
         public async Task<ActionResult> Index()
         {
-            var bookings = await _context.Bookings.Include(b => b.Room).Include(b => b.Guests).ToListAsync();
+            var bookings = await _context.Bookings
+                .Include(b => b.Room)
+                .Include(b => b.Guests).ThenInclude(g=>g.GorvnIdType)
+                .ToListAsync();
             return View(bookings);
         }
 

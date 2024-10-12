@@ -14,6 +14,8 @@
 <h4>Booking</h4>
 <hr />
 <form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Guests[0].Id" />
+    <input type="hidden" asp-for="Guests[0].GovIdFilePath" />
     <input type="hidden" asp-for="UniqueId" />
     <input type="hidden" asp-for="CreatedDate" />
     <input type="hidden" asp-for="LastUpdatedDate" />
@@ -113,35 +115,35 @@
             }
         </script>
         <!-- Camera and Photo Capture Script -->
-        <script>
-            // Initialize video streams
-            const video1 = document.getElementById('video1');
-            const video2 = document.getElementById('video2');
+        // <script>
+        //     // Initialize video streams
+        //     const video1 = document.getElementById('video1');
+        //     const video2 = document.getElementById('video2');
 
-            // Request access to the camera
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function (stream) {
-                    video1.srcObject = stream;
-                    video2.srcObject = stream;
-                })
-                .catch(function (err) {
-                    console.log("Error: " + err);
-                });
+        //     // Request access to the camera
+        //     navigator.mediaDevices.getUserMedia({ video: true })
+        //         .then(function (stream) {
+        //             video1.srcObject = stream;
+        //             video2.srcObject = stream;
+        //         })
+        //         .catch(function (err) {
+        //             console.log("Error: " + err);
+        //         });
 
-            // Function to capture a photo and display in the card
-            function capturePhoto(guestNumber) {
-                const video = document.getElementById('video' + guestNumber);
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                const context = canvas.getContext('2d');
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        //     // Function to capture a photo and display in the card
+        //     function capturePhoto(guestNumber) {
+        //         const video = document.getElementById('video' + guestNumber);
+        //         const canvas = document.createElement('canvas');
+        //         canvas.width = video.videoWidth;
+        //         canvas.height = video.videoHeight;
+        //         const context = canvas.getContext('2d');
+        //         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                // Set the captured image as the preview
-                const photoPreview = document.getElementById('photoPreview' + guestNumber);
-                photoPreview.src = canvas.toDataURL('image/png');
-            }
-        </script>
+        //         // Set the captured image as the preview
+        //         const photoPreview = document.getElementById('photoPreview' + guestNumber);
+        //         photoPreview.src = canvas.toDataURL('image/png');
+        //     }
+        // </script>
 
     }
 }

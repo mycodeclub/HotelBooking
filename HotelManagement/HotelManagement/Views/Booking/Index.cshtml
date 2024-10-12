@@ -4,6 +4,9 @@
 <table class="table table-hover">
     <thead>
         <tr>
+            <th> Name </th>
+            <th> Phone </th>
+            <th> Gov Id </th>
             <th> Room Numbers </th>
             <th> Number Of Guests </th>
             <th> Check-In Date   </th>
@@ -16,6 +19,11 @@
         @foreach (var booking in Model)
         {
             <tr>
+                <td>@booking.Guests.FirstOrDefault().FullName</td>
+                <td>@booking.Guests.FirstOrDefault().Phone</td>
+                @*  <td>@booking.Guests.FirstOrDefault().GorvnIdType.IdType</td>
+            *@
+                <td>@booking.Guests.FirstOrDefault().GovnIdNumber</td>
                 <td>@booking.Room.RoomNumber</td>
                 <td>@booking.NumberOfGuests</td>
                 <td>@booking.CheckIn</td>
