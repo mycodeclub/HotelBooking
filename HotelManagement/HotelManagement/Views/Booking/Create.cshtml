@@ -5,145 +5,169 @@
 }
 
 <style>
-    /* To keep the video feed properly sized */
-    video {
-        width: 100%;
-        height: auto;
+    /* Further compressed form styling */
+    .form-container {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        font-size: 0.85rem;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        font-size: 0.8rem;
+        margin-bottom: 3px;
+    }
+
+    .form-control {
+        padding: 5px;
+        font-size: 0.8rem;
+    }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .form-group {
+        flex: 1 1 calc(20% - 10px); /* 5 columns */
+        min-width: 140px;
+    }
+
+    .custom-img {
+        max-height: 60px;
+        border: 1px solid #ccc;
+    }
+
+    .btn-primary {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    .section-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 10px 0;
+        text-align: center;
     }
 </style>
-<h4>Booking</h4>
+
+<h4 class="text-center">Booking Form</h4>
 <hr />
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" class="form-container">
     <input type="hidden" asp-for="Guests[0].Id" />
     <input type="hidden" asp-for="Guests[0].GovIdFilePath" />
     <input type="hidden" asp-for="UniqueId" />
     <input type="hidden" asp-for="CreatedDate" />
     <input type="hidden" asp-for="LastUpdatedDate" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
+    <div class="form-row">
 
-        <div class="mb-3 col-sm-12 col-md-6  col-xl-3 form-group">
-            <label asp-for="Guests[0].FirstName" class="control-label"></label>
+        <!-- Guest Information Section -->
+        <div class="section-title col-12">Guest Information</div>
+        <div class="form-group">
+            <label asp-for="Guests[0].FirstName" class="control-label">First Name</label>
             <input asp-for="Guests[0].FirstName" placeholder="First Name" class="form-control" />
             <span asp-validation-for="Guests[0].FirstName" class="text-danger"></span>
         </div>
-        <div class="mb-3 col-sm-12 col-md-6 col-xl-3  form-group">
-            <label asp-for="Guests[0].LastName" class="control-label"></label>
+        <div class="form-group">
+            <label asp-for="Guests[0].LastName" class="control-label">Last Name</label>
             <input asp-for="Guests[0].LastName" placeholder="Last Name" class="form-control" />
             <span asp-validation-for="Guests[0].LastName" class="text-danger"></span>
         </div>
-        <div class="mb-3 col-sm-12 col-md-6 col-xl-3  form-group">
-            <label asp-for="Guests[0].Phone" class="control-label"></label>
-            <input asp-for="Guests[0].Phone" placeholder="Mobile Phone No." class="form-control" />
+        <div class="form-group">
+            <label asp-for="Guests[0].Phone" class="control-label">Phone</label>
+            <input asp-for="Guests[0].Phone" placeholder="Phone" class="form-control" />
             <span asp-validation-for="Guests[0].Phone" class="text-danger"></span>
         </div>
-        <div class="mb-3 col-sm-12 col-md-6 col-xl-3 form-group">
-            <label asp-for="Guests[0].Email" class="control-label"></label>
-            <input asp-for="Guests[0].Email" placeholder="Email id" class="form-control" />
+        <div class="form-group">
+            <label asp-for="Guests[0].Email" class="control-label">Email</label>
+            <input asp-for="Guests[0].Email" placeholder="Email" class="form-control" />
             <span asp-validation-for="Guests[0].Email" class="text-danger"></span>
         </div>
-        <div class="mb-3 col-sm-12 form-group">
-            <label asp-for="Guests[0].Address" class="control-label"></label>
+        <div class="form-group">
+            <label asp-for="Guests[0].Address" class="control-label">Address</label>
             <input asp-for="Guests[0].Address" placeholder="Address" class="form-control" />
             <span asp-validation-for="Guests[0].Address" class="text-danger"></span>
         </div>
 
-        <div class="mb-3 col-sm-12 col-md-6 col-lg-4 form-group">
-            <label asp-for="CheckIn" class="control-label"></label>
-            <input asp-for="CheckIn" class="form-control" />
+        <!-- Booking Details Section -->
+        <div class="section-title col-12">Booking Details</div>
+        <div class="form-group">
+            <label asp-for="CheckIn" class="control-label"> Check-In</label>
+            <input asp-for="CheckIn" class="form-control" placeholder="Actual Check-In" />
             <span asp-validation-for="CheckIn" class="text-danger"></span>
-
-            <label asp-for="CheckOut" class="control-label"></label>
-            <input asp-for="CheckOut" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CheckOut" class="control-label"> Check-Out</label>
+            <input asp-for="CheckOut" class="form-control" placeholder="Actual Check-Out" />
             <span asp-validation-for="CheckOut" class="text-danger"></span>
-
-            <label asp-for="RoomId" class="control-label"></label>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExpectedCheckIn" class="control-label">Expected Check-In</label>
+            <input asp-for="ExpectedCheckIn" class="form-control" placeholder="Expected Check-In" />
+            <span asp-validation-for="ExpectedCheckIn" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExpectedCheckOut" class="control-label">Expected Check-Out</label>
+            <input asp-for="ExpectedCheckOut" class="form-control" placeholder="Expected Check-Out" />
+            <span asp-validation-for="ExpectedCheckOut" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RoomId" class="control-label">Room Type</label>
             <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId">
-                <option value="">-- Select Room Type --</option>
+                <option value="">-- Select Room --</option>
             </select>
             <span asp-validation-for="RoomId" class="text-danger"></span>
         </div>
-        <div class="mb-3 col-sm-12 col-md-6 col-lg-4 form-group">
-            <label asp-for="Guests[0].GovnId" class="control-label"></label>
+
+        <!-- Identification Details Section -->
+        <div class="section-title col-12">Identification Details</div>
+        <div class="form-group">
+            <label asp-for="Guests[0].GovnId" class="control-label">Gov ID Type</label>
             <select asp-for="Guests[0].GovnId" class="form-control" asp-items="ViewBag.GorvnIdType">
-                <option value="">-- Select Id Type --</option>
+                <option value="">-- Select ID --</option>
             </select>
-             <span asp-validation-for="Guests[0].GorvnIdType" class="text-danger"></span>
-        
-             <label asp-for="Guests[0].GovnIdNumber" class="control-label"></label>
-            <input asp-for="Guests[0].GovnIdNumber" placeholder="Gov Id Number" class="form-control" />
+            <span asp-validation-for="Guests[0].GorvnIdType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Guests[0].GovnIdNumber" class="control-label">Gov ID Number</label>
+            <input asp-for="Guests[0].GovnIdNumber" placeholder="ID Number" class="form-control" />
             <span asp-validation-for="Guests[0].GovnIdNumber" class="text-danger"></span>
-
-            <label asp-for="Guests[0].GovIdFile" class="control-label"> Upload Id </label>
-            <input type="file" asp-for="Guests[0].GovIdFile" onchange="previewImage(event)" class="mb-3  form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Guests[0].GovIdFile" class="control-label">Upload ID</label>
+            <input type="file" asp-for="Guests[0].GovIdFile" onchange="previewImage(event)" class="form-control" />
+        </div>
+        <div class="form-group">
+            <img id="GuestDocpreview" class="img-fluid custom-img" src="@Model.Guests[0].GovIdFilePath" alt="ID Image" />
         </div>
 
-        <div class="mb-3 col-sm-12 col-md-6 col-lg-4 form-group">
-            <img id="GuestDocpreview" class="img-fluid custom-img" src="@Model.Guests[0].GovIdFilePath" alt="Uploaded Image" />
+        <!-- Submit Button -->
+        <div class="col-12 text-center">
+            <input class="btn btn-primary" type="submit" value="Save" />
         </div>
-@*         <!-- Photo capture section -->
-        <div class="mb-3">
-            <label class="form-label">Capture Photo</label>
-            <div class="mb-3">
-                <video id="video1" autoplay></video>
-                <button type="button" class="btn btn-primary mt-2" onclick="capturePhoto(1)">Capture</button>
-            </div>
-        </div> *@
-        <div class=" col-sm-12 text-center">
-             <input class="btn btn-primary  " type="submit" value="Save" />
-        </div>
-    </div> 
+    </div>
 </form>
-
-
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        <script type="text/javascript">
-            function previewImage(event) {
-                var input = event.target;
-                var reader = new FileReader();
-
-                reader.onload = function () {
-                    var imagePreview = document.getElementById('GuestDocpreview');
-                    imagePreview.src = reader.result;
-                    imagePreview.style.display = 'block'; // Show the image box
-                };
-
-                reader.readAsDataURL(input.files[0]); // Read the file as a data URL
-            }
-        </script>
-        <!-- Camera and Photo Capture Script -->
-        // <script>
-        //     // Initialize video streams
-        //     const video1 = document.getElementById('video1');
-        //     const video2 = document.getElementById('video2');
-
-        //     // Request access to the camera
-        //     navigator.mediaDevices.getUserMedia({ video: true })
-        //         .then(function (stream) {
-        //             video1.srcObject = stream;
-        //             video2.srcObject = stream;
-        //         })
-        //         .catch(function (err) {
-        //             console.log("Error: " + err);
-        //         });
-
-        //     // Function to capture a photo and display in the card
-        //     function capturePhoto(guestNumber) {
-        //         const video = document.getElementById('video' + guestNumber);
-        //         const canvas = document.createElement('canvas');
-        //         canvas.width = video.videoWidth;
-        //         canvas.height = video.videoHeight;
-        //         const context = canvas.getContext('2d');
-        //         context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        //         // Set the captured image as the preview
-        //         const photoPreview = document.getElementById('photoPreview' + guestNumber);
-        //         photoPreview.src = canvas.toDataURL('image/png');
-        //     }
-        // </script>
-
     }
+    <script type="text/javascript">
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+
+            reader.onload = function () {
+                var imagePreview = document.getElementById('GuestDocpreview');
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
 }

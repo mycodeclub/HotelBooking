@@ -15,6 +15,8 @@ namespace HotelManagement.Models
         [ForeignKey("RoomId")]
         public Room? Room { get; set; }
 
+        public DateTime ExpectedCheckIn { get; set; }
+        public DateTime ExpectedCheckOut { get; set; }
         public List<Guest>? Guests { get; set; }
 
         public int AdvanceAmt { get; set; }
