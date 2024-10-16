@@ -97,22 +97,22 @@
         <div class="section-title col-12">Booking Details</div>
         <div class="form-group">
             <label asp-for="CheckIn" class="control-label"> Check-In</label>
-            <input asp-for="CheckIn" class="form-control" placeholder="Actual Check-In" />
+            <input asp-for="CheckIn" class="form-control" placeholder="Actual Check-In" id="checkInDate" />
             <span asp-validation-for="CheckIn" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="CheckOut" class="control-label"> Check-Out</label>
-            <input asp-for="CheckOut" class="form-control" placeholder="Actual Check-Out" />
+            <input asp-for="CheckOut" class="form-control" placeholder="Actual Check-Out" id="checkOutDate" />
             <span asp-validation-for="CheckOut" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="ExpectedCheckIn" class="control-label">Expected Check-In</label>
-            <input asp-for="ExpectedCheckIn" class="form-control" placeholder="Expected Check-In" />
+            <input asp-for="ExpectedCheckIn" class="form-control" placeholder="Expected Check-In" id="expectedCheckInDate" />
             <span asp-validation-for="ExpectedCheckIn" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="ExpectedCheckOut" class="control-label">Expected Check-Out</label>
-            <input asp-for="ExpectedCheckOut" class="form-control" placeholder="Expected Check-Out" />
+            <input asp-for="ExpectedCheckOut" class="form-control" placeholder="Expected Check-Out" id="expectedCheckOutDate" />
             <span asp-validation-for="ExpectedCheckOut" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -169,5 +169,84 @@
 
             reader.readAsDataURL(input.files[0]);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var checkInInput = document.getElementById('checkInDate');
+            var checkOutInput = document.getElementById('checkOutDate');
+            var expectedCheckInInput = document.getElementById('expectedCheckInDate');
+            var expectedCheckOutInput = document.getElementById('expectedCheckOutDate');
+
+            function setDefaultDates() {
+                var now = new Date();
+                var tomorrow = new Date(now);
+                tomorrow.setDate(now.getDate() + 1);
+
+                var nowFormatted = now.toISOString().slice(0, 16);
+                var tomorrowFormatted = tomorrow.toISOString().slice(0, 16);
+
+                checkInInput.value = nowFormatted;
+                checkOutInput.value = tomorrowFormatted;
+                expectedCheckInInput.value = nowFormatted;
+                expectedCheckOutInput.value = tomorrowFormatted;
+            }
+
+            function updateCheckOutDate() {
+                var checkInDate = new Date(checkInInput.value);
+                var checkOutDate = new Date(checkInDate);
+                checkOutDate.setDate(checkInDate.getDate() + 1);
+
+                checkOutInput.value = checkOutDate.toISOString().slice(0, 16);
+                expectedCheckOutInput.value = checkOutDate.toISOString().slice(0, 16);
+            }
+
+            function updateExpectedCheckOutDate() {
+                var expectedCheckInDate = new Date(expectedCheckInInput.value);
+                var expectedCheckOutDate = new Date(expectedCheckInDate);
+                expectedCheckOutDate.setDate(expectedCheckInDate.getDate() + 1);
+
+                expectedCheckOutInput.value = expectedCheckOutDate.toISOString().slice(0, 16);
+            }
+
+            function validateCheckOutDate() {
+                var checkInDate = new Date(checkInInput.value);
+                var checkOutDate = new Date(checkOutInput.value);
+
+                // Prevent selecting a Check-Out date before Check-In date
+                if (checkOutDate <= checkInDate) {
+                    checkOutInput.setCustomValidity("Check-Out date must be after Check-In date.");
+                } else {
+                    checkOutInput.setCustomValidity("");
+                }
+            }
+
+            function validateExpectedCheckOutDate() {
+                var expectedCheckInDate = new Date(expectedCheckInInput.value);
+                var expectedCheckOutDate = new Date(expectedCheckOutInput.value);
+
+                // Prevent selecting an Expected Check-Out date before Expected Check-In date
+                if (expectedCheckOutDate <= expectedCheckInDate) {
+                    expectedCheckOutInput.setCustomValidity("Expected Check-Out date must be after Expected Check-In date.");
+                } else {
+                    expectedCheckOutInput.setCustomValidity("");
+                }
+            }
+
+            checkInInput.addEventListener("change", function () {
+                updateCheckOutDate();
+                updateExpectedCheckOutDate();
+                validateCheckOutDate(); // Validate after changing Check-In
+            });
+
+            checkOutInput.addEventListener("change", validateCheckOutDate);
+            expectedCheckInInput.addEventListener("change", function () {
+                updateExpectedCheckOutDate();
+                validateExpectedCheckOutDate(); // Validate after changing Expected Check-In
+            });
+
+            expectedCheckOutInput.addEventListener("change", validateExpectedCheckOutDate);
+
+            setDefaultDates();
+        });
     </script>
+
 }
