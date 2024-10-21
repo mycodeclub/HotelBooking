@@ -46,11 +46,11 @@ namespace HotelManagement.Controllers
         public async Task<IActionResult> Create(int id)
         {
             var booking = await _context.Bookings.Include(b => b.Guests).Include(b => b.Room).Where(b => b.UniqueId == id).FirstOrDefaultAsync();
-            booking ??= new Models.Booking()
+            booking ??= new Booking()
             {
-                CheckIn = DateTime.Now,
-                CheckOut = DateTime.Now.AddDays(2),
-                Guests = [new Models.Guest() { }]
+                ExpectedCheckIn = DateTime.Now,
+                ExpectedCheckOut = DateTime.Now.AddDays(2),
+                Guests = [new Guest() { }]
             };
 
             ViewData["GorvnIdType"] = new SelectList(_context.GorvnIdTypes, "Id", "IdType");
@@ -61,7 +61,7 @@ namespace HotelManagement.Controllers
         // POST: BookingController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Models.Booking booking)
+        public async Task<ActionResult> Create(Booking booking)
         {
             if (ModelState.IsValid)
             {

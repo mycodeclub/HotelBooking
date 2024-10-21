@@ -22,7 +22,7 @@ namespace HotelManagement.Models
 
 
         [NotMapped]
-        public string? FullName { get { return FirstName + LastName; } }
+        public string? FullName { get { return FirstName + " " + LastName; } }
         public string Address { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
 

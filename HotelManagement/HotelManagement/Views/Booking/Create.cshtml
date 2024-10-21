@@ -94,16 +94,14 @@
         </div>
 
         <!-- Booking Details Section -->
-        <div class="section-title col-12">Booking Details</div>
-        <div class="form-group">
-            <label asp-for="CheckIn" class="control-label"> Check-In</label>
+            <label asp-for="ExpectedCheckIn" class="control-label"></label>
+            <input asp-for="ExpectedCheckIn" class="form-control" />
+            <span asp-validation-for="ExpectedCheckIn" class="text-danger"></span>
             <input asp-for="CheckIn" class="form-control" placeholder="Actual Check-In" id="checkInDate" />
-            <span asp-validation-for="CheckIn" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="CheckOut" class="control-label"> Check-Out</label>
-            <input asp-for="CheckOut" class="form-control" placeholder="Actual Check-Out" id="checkOutDate" />
-            <span asp-validation-for="CheckOut" class="text-danger"></span>
+            <label asp-for="ExpectedCheckOut" class="control-label"></label>
+            <input asp-for="ExpectedCheckOut" class="form-control" />
+            <span asp-validation-for="ExpectedCheckOut" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="ExpectedCheckIn" class="control-label">Expected Check-In</label>

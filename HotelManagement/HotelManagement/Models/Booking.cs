@@ -8,8 +8,8 @@ namespace HotelManagement.Models
         [Key]
         public int UniqueId { get; set; }
         public DateTime BookingDate { get; set; }
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get; set; }
+        public DateTime ExpectedCheckIn { get; set; }
+        public DateTime ExpectedCheckOut { get; set; }
         [Required]
         public string RoomId { get; set; } = string.Empty;
         [ForeignKey("RoomId")]
@@ -19,15 +19,16 @@ namespace HotelManagement.Models
         public DateTime ExpectedCheckOut { get; set; }
         public List<Guest>? Guests { get; set; }
 
-        public int AdvanceAmt { get; set; }
-        public int RemainingAmt { get; set; }
+
+        public DateTime ActualCheckIn { get; set; }
+        public DateTime ActualCheckOut { get; set; }
+        public int BookingAmt { get; set; }
+        public int BalanceAmt { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime LastUpdatedDate { get; set; }
 
         [NotMapped]
-        public int NumberOfGuests { get { return Guests == null ? 0 : Guests.Count; } }
-
-
+        public int NumberOfGuests { get { return Guests == null ? 0 : Guests.Count; } } 
     }
 }
