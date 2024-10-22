@@ -19,26 +19,27 @@ namespace HotelManagement.Service
 
             var roomsAvilibility = new List<RoomsAvilibilityVM>() { };
             var rooms = await _context.Rooms.ToListAsync();
-            var bookings = await _context.Bookings.Where(b => b.ExpectedCheckIn >= checkIn && b.ExpectedCheckOut <= checkOut).ToListAsync();
+            var bookings = await _context.Bookings.Where(b => (b.ExpectedCheckIn >= checkIn || b.ActualCheckIn >= checkIn) && (b.ExpectedCheckOut <= checkOut || b.ActualCheckOut <= checkOut)).ToListAsync();
             DateTime forDate = checkIn;
 
             while (forDate >= checkOut)
             {
-                var forThisDaybooking = bookings.Where(b => b.ExpectedCheckIn == forDate).ToList();
-                //roomsAvilibility.Add(new RoomsAvilibilityVM()
-                //{
-                //    BookingDate = forDate,
-                //    Rooms = rooms.ForEach(r =>
-                //    {
-                //        var data = forThisDaybooking.Where(bookedRoom => bookedRoom.RoomIds.Contains(r.RoomNumber)).ToList();
-                //    })
+                var forThisDaybooking = bookings.Where(b => b.ExpectedCheckIn == forDate || b.ActualCheckIn == forDate).ToList();
 
-                //});
+ //var             roomsAvilibility =  new RoomsAvilibilityVM()
+ //               {
+ //                   BookingDate = forDate,
+ //                   Rooms = rooms.ForEach(r =>
+ //                   {
+ //                       var data = forThisDaybooking.Where(bookedRoom => bookedRoom.RoomIds.Contains(r.RoomNumber)).ToList();
+ //                   })
+
+ //               });
 
                 forDate = forDate.AddDays(1);
             }
             return roomsAvilibility;
         }
-   
+
     }
 }

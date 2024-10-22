@@ -1,14 +1,9 @@
 ﻿using HotelBookingApp.EF;
 using HotelManagement.Models;
 using HotelManagement.Service;
-using HotelManagement.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Hosting.Internal;
-
 namespace HotelManagement.Controllers
 {
     public class BookingController : Controller
@@ -31,7 +26,7 @@ namespace HotelManagement.Controllers
         {
             var bookings = await _context.Bookings
                 .Include(b => b.Room)
-                .Include(b => b.Guests).ThenInclude(g=>g.GorvnIdType)
+                .Include(b => b.Guests).ThenInclude(g => g.GorvnIdType)
                 .ToListAsync();
             return View(bookings);
         }
@@ -57,6 +52,7 @@ namespace HotelManagement.Controllers
             ViewData["RoomId"] = new SelectList(_context.Rooms.Select(r => new { r.RoomNumber, DisplayText = r.RoomNumber + " - Rent: $" + r.Rent.ToString("F2") }), "RoomNumber", /*  Value field */ "DisplayText" /*Display field*/ );
             return View(booking);
         }
+
 
         // POST: BookingController/Create
         [HttpPost]
@@ -160,5 +156,28 @@ namespace HotelManagement.Controllers
                 return View();
             }
         }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> GetAvailability(FormCollection fc)
+        {
+            var FromDate = fc["FromDate"];
+            var ToDate = Convert.ToDateTime(fc["ToDate"]);
+            var availability = _booking.GetAvailability(Convert.ToDateTime(FromDate), ToDate);
+
+            var booking = await _context.Bookings.Include(b => b.Guests).Include(b => b.Room).Where(b => b.UniqueId == 0).FirstOrDefaultAsync();
+            booking ??= new Booking()
+            {
+                ExpectedCheckIn = DateTime.Now,
+                ExpectedCheckOut = DateTime.Now.AddDays(2),
+                Guests = [new Guest() { }]
+            };
+
+            ViewData["GorvnIdType"] = new SelectList(_context.GorvnIdTypes, "Id", "IdType");
+            ViewData["RoomId"] = new SelectList(_context.Rooms.Select(r => new { r.RoomNumber, DisplayText = r.RoomNumber + " - Rent: $" + r.Rent.ToString("F2") }), "RoomNumber", /*  Value field */ "DisplayText" /*Display field*/ );
+            return View(booking);
+        }
+
     }
 }

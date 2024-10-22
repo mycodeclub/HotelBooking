@@ -93,16 +93,7 @@
             <span asp-validation-for="Guests[0].Address" class="text-danger"></span>
         </div>
 
-        <!-- Booking Details Section -->
-            <label asp-for="ExpectedCheckIn" class="control-label"></label>
-            <input asp-for="ExpectedCheckIn" class="form-control" />
-            <span asp-validation-for="ExpectedCheckIn" class="text-danger"></span>
-            <input asp-for="CheckIn" class="form-control" placeholder="Actual Check-In" id="checkInDate" />
-        </div>
-            <label asp-for="ExpectedCheckOut" class="control-label"></label>
-            <input asp-for="ExpectedCheckOut" class="form-control" />
-            <span asp-validation-for="ExpectedCheckOut" class="text-danger"></span>
-        </div>
+ 
         <div class="form-group">
             <label asp-for="ExpectedCheckIn" class="control-label">Expected Check-In</label>
             <input asp-for="ExpectedCheckIn" class="form-control" placeholder="Expected Check-In" id="expectedCheckInDate" />
@@ -151,9 +142,8 @@
 </form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
     <script type="text/javascript">
         function previewImage(event) {
             var input = event.target;
