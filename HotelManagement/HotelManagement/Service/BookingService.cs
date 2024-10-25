@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace HotelManagement.Service
 {
@@ -16,30 +17,38 @@ namespace HotelManagement.Service
 
         public async Task<List<RoomsAvilibilityVM>> GetAvailability(DateTime checkIn, DateTime checkOut)
         {
-
             var roomsAvilibility = new List<RoomsAvilibilityVM>() { };
-            var rooms = await _context.Rooms.ToListAsync();
-            var bookings = await _context.Bookings.Where(b => (b.ExpectedCheckIn >= checkIn || b.ActualCheckIn >= checkIn) && (b.ExpectedCheckOut <= checkOut || b.ActualCheckOut <= checkOut)).ToListAsync();
-            DateTime forDate = checkIn;
-
-            while (forDate >= checkOut)
+            try
             {
-                var forThisDaybooking = bookings.Where(b => b.ExpectedCheckIn == forDate || b.ActualCheckIn == forDate).ToList();
-
- //var             roomsAvilibility =  new RoomsAvilibilityVM()
- //               {
- //                   BookingDate = forDate,
- //                   Rooms = rooms.ForEach(r =>
- //                   {
- //                       var data = forThisDaybooking.Where(bookedRoom => bookedRoom.RoomIds.Contains(r.RoomNumber)).ToList();
- //                   })
-
- //               });
-
-                forDate = forDate.AddDays(1);
+                var rooms = await _context.Rooms.ToListAsync();
+                var bookings = await _context.Bookings.Where(b => (b.ExpectedCheckIn.Date <= checkIn.Date || b.ActualCheckIn.Date <= checkIn.Date) && (b.ExpectedCheckOut.Date>= checkOut.Date || b.ActualCheckOut.Date >= checkOut.Date)).ToListAsync();
+                DateTime forDate = checkIn;
+                while (forDate <= checkOut)
+                {
+                    var ThisDaybooking = bookings.Where(b => forDate.Date >= b.ExpectedCheckIn.Date || forDate.Date >= b.ActualCheckIn.Date && (forDate.Date <= b.ActualCheckOut.Date || forDate.Date <= b.ExpectedCheckOut.Date)).ToList();
+                    var json = JsonSerializer.Serialize(rooms);
+                    var roomsAvilibilityForThisDay = new RoomsAvilibilityVM()
+                    {
+                        BookingDate = forDate,
+                        Rooms = JsonSerializer.Deserialize<List<Room>>(json)
+                    };
+                    ThisDaybooking.Where(b => b.ActualCheckIn == forDate);
+                    roomsAvilibilityForThisDay.Rooms.ForEach(r =>
+                    {
+                        if (ThisDaybooking.Any(b => b.RoomId == r.RoomNumber))
+                            r.IsAvailable = false;
+                    });
+                    roomsAvilibility.Add(roomsAvilibilityForThisDay);
+                    forDate = forDate.AddDays(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                var data = ex.Message;
             }
             return roomsAvilibility;
         }
-
     }
+
 }
+

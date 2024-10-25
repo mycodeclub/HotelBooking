@@ -1,6 +1,7 @@
 ﻿using HotelBookingApp.EF;
 using HotelManagement.Models;
 using HotelManagement.Service;
+using HotelManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -159,24 +160,23 @@ namespace HotelManagement.Controllers
 
 
 
+        public IActionResult GetAvailability()
+        {
+            var roomsAvilibility = new List<RoomsAvilibilityVM>() { new RoomsAvilibilityVM() { BookingDate = DateTime.Now, }, new RoomsAvilibilityVM() { BookingDate = DateTime.Now.AddDays(30) } };
+            return View(roomsAvilibility);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> GetAvailability(FormCollection fc)
+        public async Task<IActionResult> GetAvailability(IFormCollection fc)
         {
             var FromDate = fc["FromDate"];
             var ToDate = Convert.ToDateTime(fc["ToDate"]);
-            var availability = _booking.GetAvailability(Convert.ToDateTime(FromDate), ToDate);
+            var availability = await _booking.GetAvailability(Convert.ToDateTime(FromDate), ToDate);
 
-            var booking = await _context.Bookings.Include(b => b.Guests).Include(b => b.Room).Where(b => b.UniqueId == 0).FirstOrDefaultAsync();
-            booking ??= new Booking()
-            {
-                ExpectedCheckIn = DateTime.Now,
-                ExpectedCheckOut = DateTime.Now.AddDays(2),
-                Guests = [new Guest() { }]
-            };
 
             ViewData["GorvnIdType"] = new SelectList(_context.GorvnIdTypes, "Id", "IdType");
             ViewData["RoomId"] = new SelectList(_context.Rooms.Select(r => new { r.RoomNumber, DisplayText = r.RoomNumber + " - Rent: $" + r.Rent.ToString("F2") }), "RoomNumber", /*  Value field */ "DisplayText" /*Display field*/ );
-            return View(booking);
+            return View(availability);
         }
 
     }

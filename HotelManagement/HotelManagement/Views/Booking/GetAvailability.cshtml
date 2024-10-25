@@ -1,0 +1,82 @@
+﻿@* @model HotelManagement.Models.Booking
+ *@
+ @model List< HotelManagement.ViewModels.RoomsAvilibilityVM >
+@{
+    DateTime fromDate = DateTime.Now;
+    DateTime toDate = DateTime.Now.AddDays(7);
+    bool drawRooms = true;
+    if (Model != null && Model.Any())
+    {
+        fromDate = Model.FirstOrDefault().BookingDate;
+        toDate = Model.LastOrDefault().BookingDate;
+
+    }
+}
+<form method="post">
+    <label class="form-label"> From Date </label>
+    <input type="date" name="FromDate" value="@fromDate" class="form-text" />
+    <label class="form-label"> To Date </label>
+    <input type="date" name="ToDate" class="form-text" />
+    <input type="submit" value="Get" class="btn btn-primary" />
+</form>
+
+<table class="table table-bordered">
+    <tr>
+        <td>  <table><tr><td> </td></tr></table> </td>
+        <td>
+            <table class="table table-bordered">
+                <tr>
+                    @{
+                        if (Model.FirstOrDefault()?.Rooms != null)
+                            foreach (var r in Model.FirstOrDefault()?.Rooms)
+                            {
+                                <th>  @r.RoomNumber  </th>
+                            }
+                    }
+                </tr>
+                <tr>
+                    @{
+                        if (Model.FirstOrDefault()?.Rooms != null)
+                            foreach (var r in Model.FirstOrDefault()?.Rooms)
+                            {
+                                <th> @r.Rent /-  </th>
+                            }
+                    }
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="table table-hover">
+                @foreach (var av in Model)
+                {
+                    <tr><td>@av.BookingDate.ToString("dd-MMM-yyyy")</td></tr>
+                }
+            </table>
+        </td>
+        <td>
+            <table class="table table-hover">
+
+                @foreach (var av in Model)
+                {
+                    <tr>
+                        @if (drawRooms && av.Rooms != null && av.Rooms.Any())
+                            foreach (var r in av.Rooms)
+                            {
+                                if (@r.IsAvailable == true)
+                                {
+                                    <td style="background-color:#00ffad82"> Avilable </td>
+                                }
+                                else
+                                {
+                                    <td style="background-color:#ff6d81">Booked</td>
+                                }
+
+                            }
+                    </tr>
+                }
+            </table>
+        </td>
+    </tr>
+</table> 
