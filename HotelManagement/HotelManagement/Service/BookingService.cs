@@ -25,17 +25,19 @@ namespace HotelManagement.Service
                 DateTime forDate = checkIn;
                 while (forDate <= checkOut)
                 {
-                    var ThisDaybooking = bookings.Where(b => b.ActualCheckIn.Date == forDate.Date || forDate.Date <= b.ActualCheckOut.Date).ToList();
+                    // var ThisDaybooking = bookings.Where(b => b.ActualCheckIn.Date == forDate.Date && forDate.Date <= b.ActualCheckOut.Date).ToList();
+                    var ThisDayBooking = bookings.Where(b => b.ActualCheckIn.Date <= forDate.Date && forDate.Date <= b.ActualCheckOut.Date).ToList();
+
                     var json = JsonSerializer.Serialize(rooms);
                     var roomsAvilibilityForThisDay = new RoomsAvilibilityVM()
                     {
                         BookingDate = forDate,
                         Rooms = JsonSerializer.Deserialize<List<Room>>(json)
                     };
-                    ThisDaybooking.Where(b => b.ActualCheckIn == forDate);
+                    ThisDayBooking.Where(b => b.ActualCheckIn == forDate);
                     roomsAvilibilityForThisDay.Rooms.ForEach(r =>
                     {
-                        if (ThisDaybooking.Any(b => b.RoomId == r.RoomNumber))
+                        if (ThisDayBooking.Any(b => b.RoomId == r.RoomNumber))
                             r.IsAvailable = false;
                     });
                     roomsAvilibility.Add(roomsAvilibilityForThisDay);
