@@ -169,13 +169,7 @@ namespace HotelManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> GetAvailability(IFormCollection fc)
         {
-            var FromDate = fc["FromDate"];
-            var ToDate = Convert.ToDateTime(fc["ToDate"]);
-            var availability = await _booking.GetAvailability(Convert.ToDateTime(FromDate), ToDate);
-
-
-            ViewData["GorvnIdType"] = new SelectList(_context.GorvnIdTypes, "Id", "IdType");
-            ViewData["RoomId"] = new SelectList(_context.Rooms.Select(r => new { r.RoomNumber, DisplayText = r.RoomNumber + " - Rent: $" + r.Rent.ToString("F2") }), "RoomNumber", /*  Value field */ "DisplayText" /*Display field*/ );
+            var availability = await _booking.GetAvailability(Convert.ToDateTime(fc["FromDate"]), Convert.ToDateTime(fc["ToDate"]));
             return View(availability);
         }
 

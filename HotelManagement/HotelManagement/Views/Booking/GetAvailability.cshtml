@@ -2,21 +2,13 @@
  *@
  @model List< HotelManagement.ViewModels.RoomsAvilibilityVM >
 @{
-    DateTime fromDate = DateTime.Now;
-    DateTime toDate = DateTime.Now.AddDays(7);
-    bool drawRooms = true;
-    if (Model != null && Model.Any())
-    {
-        fromDate = Model.FirstOrDefault().BookingDate;
-        toDate = Model.LastOrDefault().BookingDate;
-
-    }
+    bool drawRooms = true; 
 }
 <form method="post">
     <label class="form-label"> From Date </label>
-    <input type="date" name="FromDate" value="@fromDate" class="form-text" />
+    <input type="date" name="FromDate" asp-for="@Model.FirstOrDefault().BookingDate" class="form-text" />
     <label class="form-label"> To Date </label>
-    <input type="date" name="ToDate" class="form-text" />
+    <input type="date" name="ToDate" asp-for="@Model.LastOrDefault().BookingDate" class="form-text" />
     <input type="submit" value="Get" class="btn btn-primary" />
 </form>
 

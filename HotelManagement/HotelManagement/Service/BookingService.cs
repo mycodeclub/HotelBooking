@@ -21,11 +21,11 @@ namespace HotelManagement.Service
             try
             {
                 var rooms = await _context.Rooms.ToListAsync();
-                var bookings = await _context.Bookings.Where(b => (b.ExpectedCheckIn.Date <= checkIn.Date || b.ActualCheckIn.Date <= checkIn.Date) && (b.ExpectedCheckOut.Date>= checkOut.Date || b.ActualCheckOut.Date >= checkOut.Date)).ToListAsync();
+                var bookings = await _context.Bookings.Where(b => b.ActualCheckIn.Date >= checkIn.Date && b.ActualCheckOut.Date <= checkOut.Date).ToListAsync();
                 DateTime forDate = checkIn;
                 while (forDate <= checkOut)
                 {
-                    var ThisDaybooking = bookings.Where(b => forDate.Date >= b.ExpectedCheckIn.Date || forDate.Date >= b.ActualCheckIn.Date && (forDate.Date <= b.ActualCheckOut.Date || forDate.Date <= b.ExpectedCheckOut.Date)).ToList();
+                    var ThisDaybooking = bookings.Where(b => b.ActualCheckIn.Date == forDate.Date || forDate.Date <= b.ActualCheckOut.Date).ToList();
                     var json = JsonSerializer.Serialize(rooms);
                     var roomsAvilibilityForThisDay = new RoomsAvilibilityVM()
                     {
