@@ -22,4 +22,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Template\LandingPage\fonts\ionicons\.DS_Store" />
+  </ItemGroup>
+
 </Project>
