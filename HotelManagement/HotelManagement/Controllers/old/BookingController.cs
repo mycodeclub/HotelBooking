@@ -5,7 +5,7 @@ using HotelManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-namespace HotelManagement.Controllers
+namespace HotelManagement.Controllers.old
 {
     public class BookingController : Controller
     {

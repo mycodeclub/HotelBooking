@@ -3,17 +3,18 @@ using HotelManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotelManagement.Controllers
+namespace HotelManagement.Controllers.old
 {
     public class GuestController : Controller
     {
         private readonly AppDbContext _context;
 
-        public GuestController(AppDbContext context) {
+        public GuestController(AppDbContext context)
+        {
             _context = context;
 
         }
-        public  async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var data = await _context.Guests.ToListAsync();
             return View(data);

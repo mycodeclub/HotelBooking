@@ -5,7 +5,7 @@ using HotelManagement.Models;
 using HotelManagement.ViewModels;
 using HotelManagement.Service;
 
-namespace HotelManagement.Controllers
+namespace HotelManagement.Controllers.old
 {
     public class BookingsOldController(AppDbContext context, IBookingService booking) : Controller
     {
@@ -42,7 +42,7 @@ namespace HotelManagement.Controllers
             var bVM = new BookingVM()
             {
                 CheckIn = DateTime.Now,
-                CheckOut = DateTime.Now.AddDays(2) 
+                CheckOut = DateTime.Now.AddDays(2)
             };
             return View(bVM);
         }
