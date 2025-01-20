@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HotelBookingApp.EF;
+using HotelManagement.EF;
 using HotelManagement.Models;
 using HotelManagement.ViewModels;
 using HotelManagement.Service;

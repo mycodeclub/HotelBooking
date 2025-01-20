@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.EF;
+﻿using HotelManagement.EF;
 using HotelManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
